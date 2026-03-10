@@ -1,0 +1,98 @@
+---
+import FilmGrain from "../components/effects/FilmGrain.astro";
+import NavBar from "../components/ui/NavBar.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "fr" | "en";
+  image?: string;
+}
+
+const {
+  title = "Portfolio",
+  description = "Portfolio de Virgil",
+  lang = "fr",
+  image = "/og-image.jpg",
+} = Astro.props;
+
+// Fallback for Astro.site during development
+const siteUrl = Astro.site?.toString() || "http://localhost:4321";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImageURL = new URL(image, siteUrl);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook - Cinematic Theme -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImageURL} />
+
+    <!-- Fonts - Roboto Slab & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Global Styles -->
+    <style is:global>
+      @import "../styles/global.css";
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family:
+          "Inter", "Geist Sans", ui-sans-serif, system-ui, sans-serif;
+        background-color: #1a1a1b;
+        color: #f5f5dc;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Roboto Slab", serif;
+      }
+    </style>
+  </head>
+  <body>
+    <FilmGrain />
+    <NavBar lang={lang} />
+    <div class="pt-20">
+      <slot />
+    </div>
+  </body>
+</html>

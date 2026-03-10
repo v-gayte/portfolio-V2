@@ -1,0 +1,133 @@
+ ---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { useTranslations } from "../../i18n/ui";
+
+const lang = "fr";
+const t = useTranslations(lang);
+
+const timeline = [
+  {
+    year: "2026",
+    title: "Stagiaire développement ERP",
+    subtitle: "UTAH Hydraulique",
+    desc: "Migration, développement et documentation dans le cadre de l'utilisation de la version 19 de Odoo en entreprise.",
+    color: "border-accent-amber"
+  },
+  {
+    year: "2025",
+    title: "Stagiaire Migration DLL",
+    subtitle: "TDI - Transfert Développement Informatique",
+    desc: "Migration de DLL C# dans le cadre de génération d'étiquette de colis.",
+    color: "border-indigo-400"
+  },
+  {
+    year: "2025",
+    title: "Étudiant ingénieur informatique",
+    subtitle: "CESI Lyon",
+    desc: "Formation d'ingénieur informatique en section anglophone",
+    color: "border-emerald-400"
+  },
+  {
+    year: "2023",
+    title: "Bac général",
+    subtitle: "Notre Dame de Bellegarde",
+    desc: "Formation Bac général, spécialités mathématiques et informatique",
+    color: "border-rose-400"
+  }
+];
+---
+
+<MainLayout
+  title={`${t("journey.title")} | Virgil`}
+  description="Mon parcours"
+  lang={lang}
+>
+  <main class="h-[100dvh] w-full bg-warm-grey pt-20 pb-4 flex flex-col overflow-hidden">
+    <!-- Header Fixed -->
+    <div class="px-8 md:px-16 pt-8 pb-4 z-10 bg-warm-grey">
+      <h1 class="text-4xl md:text-6xl font-slab font-bold text-text-cream mb-2">
+        {t("journey.title")}<span class="text-accent-amber">.</span>
+      </h1>
+      <p class="text-vintage-cream-dark text-lg">
+        Défilez vers la droite pour explorer l'historique.
+      </p>
+    </div>
+
+    <!-- Horizontal Scroll Container -->
+    <div class="flex-1 overflow-x-auto overflow-y-hidden horizontal-scroll flex items-center px-8 md:px-16 gap-4 md:gap-8 pb-6">
+      <!-- Spacer start -->
+      <div class="w-8 shrink-0"></div>
+
+      {timeline.map((item, index) => (
+        <div class="shrink-0 w-[85vw] md:w-[500px] h-[50vh] min-h-[320px] max-h-[450px] relative group transition-transform duration-500 hover:-translate-y-2">
+          <!-- Card Content -->
+          <div class={`h-full bg-vintage-grey/40 backdrop-blur-md border-l-4 ${item.color} p-5 md:p-8 rounded-r-xl border-y border-r border-white/5 flex flex-col justify-between hover:bg-vintage-grey/60 transition-colors shadow-2xl`}>
+             
+             <!-- Top: Year & Title -->
+             <div>
+               <span class="text-6xl md:text-8xl font-slab font-bold text-white/5 absolute -top-10 -right-4 z-0 group-hover:text-white/10 transition-colors select-none">
+                 {item.year}
+               </span>
+               <div class="relative z-10">
+                 <div class="text-accent-amber font-mono mb-1 md:mb-2 text-base md:text-lg">{item.year}</div>
+                 <h2 class="text-xl md:text-3xl font-bold text-text-cream mb-1 md:mb-2 uppercase tracking-tight">{item.title}</h2>
+                 <h3 class="text-base md:text-lg text-white/60 font-light italic">{item.subtitle}</h3>
+               </div>
+             </div>
+
+             <!-- Bottom: Description -->
+             <div class="relative z-10 border-t border-white/10 pt-4 md:pt-6">
+               <p class="text-base md:text-lg text-vintage-cream-dark leading-relaxed">
+                 {item.desc}
+               </p>
+             </div>
+          </div>
+        </div>
+      ))}
+      
+      <!-- Spacer end -->
+      <div class="w-8 shrink-0"></div>
+    </div>
+  </main>
+</MainLayout>
+
+<style>
+  /* Custom Scrollbar */
+  .horizontal-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+  .horizontal-scroll::-webkit-scrollbar-track {
+    background: #1a1a1b;
+  }
+  .horizontal-scroll::-webkit-scrollbar-thumb {
+    background: #2a2a2b;
+    border-radius: 4px;
+  }
+  .horizontal-scroll::-webkit-scrollbar-thumb:hover {
+    background: #ffbf00;
+  }
+
+  /* Support for mouse wheel horizontal scrolling if needed via JS, strictly CSS here */
+  .horizontal-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2b #1a1a1b;
+  }
+  
+  /* Overlapping effect helper (negative margin visually stacks them if desired, but sticking to clear separation for legibility first, or use negative margins for strict overlap) */
+</style>
+
+<script>
+  // Transform vertical scroll to horizontal scroll
+  const scrollContainer = document.querySelector('.horizontal-scroll');
+  
+  if (scrollContainer) {
+    window.addEventListener('wheel', (evt) => {
+      // @ts-ignore
+      if (evt.deltaY !== 0) {
+        // @ts-ignore
+        scrollContainer.scrollLeft += evt.deltaY;
+        evt.preventDefault();
+      }
+    }, { passive: false });
+  }
+</script>

@@ -1,0 +1,149 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { useTranslations } from "../../i18n/ui";
+
+const lang = "en";
+const t = useTranslations(lang);
+---
+
+<MainLayout
+  title={`${t("contact.title")} | Virgil`}
+  description="Contact me to discuss your projects"
+  lang={lang}
+>
+  <main class="min-h-[calc(100vh-80px)] bg-warm-grey px-8 py-6 md:px-16 flex items-center">
+    <div
+      class="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-8 items-center mt-8"
+    >
+      <!-- Left Column: Info -->
+      <div class="animate-fade-in-up text-left">
+        <h1
+          class="text-4xl md:text-5xl font-slab font-bold text-text-cream mb-4"
+        >
+          {t("contact.title")}<span class="text-accent-amber">.</span>
+        </h1>
+        <p
+          class="text-vintage-cream-dark text-base md:text-lg font-sans mb-6 leading-relaxed max-w-md"
+        >
+          Have a project in mind? A question? Or just want to say hi? I am
+          always open to new opportunities.
+        </p>
+
+        <div class="space-y-4">
+          <div class="flex items-center gap-4 text-vintage-cream group">
+            <div
+              class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent-amber/50 transition-colors"
+            >
+              <span class="text-accent-amber">@</span>
+            </div>
+            <div>
+              <div class="text-sm text-vintage-cream-dark">Email</div>
+              <a
+                href="mailto:contact@virgil.dev"
+                class="font-mono text-lg hover:text-accent-amber transition-colors"
+                data-hoverable>contact@virgil.dev</a
+              >
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 text-vintage-cream group">
+            <div
+              class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-accent-amber/50 transition-colors"
+            >
+              <span class="text-accent-amber">in</span>
+            </div>
+            <div>
+              <div class="text-sm text-vintage-cream-dark">LinkedIn</div>
+              <a
+                href="#"
+                class="font-mono text-lg hover:text-accent-amber transition-colors"
+                data-hoverable>virgil-gayte</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Form -->
+      <div
+        class="bg-vintage-grey/20 border border-white/5 p-8 rounded-2xl backdrop-blur-sm animate-fade-in-up delay-200"
+      >
+        <form class="space-y-6">
+          <div class="space-y-2">
+            <label
+              for="name"
+              class="block text-sm font-medium text-vintage-cream">Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              class="w-full bg-vintage-dark/50 border border-white/10 rounded-lg px-4 py-3 text-text-cream focus:ring-1 focus:ring-accent-amber focus:border-accent-amber outline-none transition-all placeholder:text-white/20"
+              placeholder="Your name"
+              required
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label
+              for="email"
+              class="block text-sm font-medium text-vintage-cream">Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="w-full bg-vintage-dark/50 border border-white/10 rounded-lg px-4 py-3 text-text-cream focus:ring-1 focus:ring-accent-amber focus:border-accent-amber outline-none transition-all placeholder:text-white/20"
+              placeholder="your@email.com"
+              required
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label
+              for="message"
+              class="block text-sm font-medium text-vintage-cream"
+              >Message</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="3"
+              class="w-full bg-vintage-dark/50 border border-white/10 rounded-lg px-4 py-3 text-text-cream focus:ring-1 focus:ring-accent-amber focus:border-accent-amber outline-none transition-all placeholder:text-white/20 resize-none"
+              placeholder="Tell me about your project..."
+              required></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-accent-amber text-warm-grey font-bold py-3 px-6 rounded-lg hover:bg-vintage-amber-light transition-all transform hover:-translate-y-0.5"
+            data-hoverable
+          >
+            {t("contact.submit")}
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+</MainLayout>
+
+<style>
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+</style>

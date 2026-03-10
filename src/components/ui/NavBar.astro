@@ -1,0 +1,178 @@
+---
+import { useTranslations } from "../../i18n/ui";
+
+const { lang = "fr" } = Astro.props;
+const t = useTranslations(lang);
+
+const currentPath = Astro.url.pathname;
+const targetLang = lang === "fr" ? "en" : "fr";
+const targetPath = currentPath.replace(new RegExp(`^/${lang}`), `/${targetLang}`) || `/${targetLang}/`;
+
+const navItems = [
+  { label: t("nav.home"), href: `/${lang}/` },
+  { label: t("nav.journey"), href: `/${lang}/parcours` },
+  { label: t("nav.projects"), href: `/${lang}/projets` },
+  { label: t("nav.contact"), href: `/${lang}/contact` },
+];
+---
+
+<nav
+  class="fixed top-0 w-full z-50 px-6 py-4 glass-nav border-b border-white/5"
+>
+  <div class="max-w-[1400px] mx-auto flex justify-between items-center">
+    <!-- Logo -->
+    <a
+      href={`/${lang}/`}
+      class="text-xl font-slab font-bold text-text-cream hover:text-accent-amber transition-colors z-[60] relative"
+    >
+      Virgil<span class="text-accent-amber">.</span>
+    </a>
+
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center gap-8">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="text-sm font-sans text-vintage-cream-dark hover:text-accent-amber transition-colors tracking-wide"
+            data-hoverable
+          >
+            {item.label}
+          </a>
+        ))
+      }
+
+      <div class="h-4 w-px bg-white/10 mx-2"></div>
+
+      <a
+        href={targetPath}
+        class="text-sm font-mono font-bold text-vintage-cream hover:text-accent-amber transition-colors"
+        data-hoverable
+        title="Changer de langue / Change language"
+      >
+        {lang === "fr" ? "EN" : "FR"}
+      </a>
+
+      <a
+        href="http://localhost:4321"
+        class="text-xs font-mono text-accent-amber/80 hover:text-accent-amber border border-accent-amber/30 px-3 py-1.5 rounded transition-all hover:bg-accent-amber/5 ml-2"
+        data-hoverable
+      >
+        {t("nav.portal")} ↗
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button
+      class="md:hidden text-text-cream z-[60] relative"
+      id="mobile-menu-btn"
+      aria-label="Menu"
+      data-hoverable
+    >
+      <svg
+        id="menu-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        ><line x1="3" y1="12" x2="21" y2="12"></line><line
+          x1="3"
+          y1="6"
+          x2="21"
+          y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg
+      >
+      <svg
+        id="close-icon"
+        class="hidden"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        ><line x1="18" y1="6" x2="6" y2="18"></line><line
+          x1="6"
+          y1="6"
+          x2="18"
+          y2="18"></line></svg
+      >
+    </button>
+  </div>
+
+    <!-- Mobile Menu Overlay -->
+  </div>
+</nav>
+
+<div
+  id="mobile-menu"
+  class="fixed inset-0 bg-warm-grey/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center gap-8"
+>
+  {
+    navItems.map((item) => (
+      <a
+        href={item.href}
+        class="text-2xl font-slab font-bold text-text-cream hover:text-accent-amber transition-colors"
+      >
+        {item.label}
+      </a>
+    ))
+  }
+  <div class="h-px w-24 bg-white/10 my-4"></div>
+  
+  <a
+    href={targetPath}
+    class="text-xl font-slab text-white hover:text-accent-amber transition-colors mb-2"
+  >
+    {lang === "fr" ? "🇬🇧 English" : "🇫🇷 Français"}
+  </a>
+
+  <a
+    href="http://localhost:4321"
+    class="text-lg font-mono text-accent-amber border border-accent-amber/30 px-6 py-2 rounded mt-4"
+  >
+    {t("nav.portal")} ↗
+  </a>
+</div>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
+  const closeIcon = document.getElementById("close-icon");
+
+  if (btn && menu && menuIcon && closeIcon) {
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("translate-x-full");
+      menuIcon.classList.toggle("hidden");
+      closeIcon.classList.toggle("hidden");
+      document.body.classList.toggle("overflow-hidden");
+    });
+
+    // Close menu when clicking a link
+    const links = menu.querySelectorAll("a");
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        menu.classList.add("translate-x-full");
+        menuIcon.classList.remove("hidden");
+        closeIcon.classList.add("hidden");
+        document.body.classList.remove("overflow-hidden");
+      });
+    });
+  }
+</script>
+
+<style>
+  .glass-nav {
+    background: rgba(26, 26, 27, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+</style>

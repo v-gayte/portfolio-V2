@@ -1,0 +1,132 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import { useTranslations } from "../../i18n/ui";
+
+const lang = "en";
+const t = useTranslations(lang);
+
+const projects = [
+  {
+    title: "Le Portail",
+    category: "Web Design",
+    description: "An interactive and immersive entry to my digital ecosystem. Using modern technologies to create a unique user experience.",
+    tech: ["Astro", "React", "Tailwind"],
+    image: "/placeholder-portal.jpg",
+    links: {
+      details: true,
+      github: "https://github.com/virgil/portal", // Example link
+      visit: "https://portal.virgil.dev" // Example link
+    }
+  },
+  {
+    title: "Project Alpha",
+    category: "Development",
+    description: "SaaS task management application with integrated AI. Allows optimal organization through prediction algorithms.",
+    tech: ["Next.js", "Python", "PostgreSQL"],
+    image: "",
+    links: {
+      details: true,
+      github: "https://github.com",
+      visit: null
+    }
+  },
+  {
+    title: "Creative Folio",
+    category: "Design",
+    description: "Typographic exploration and experimental layout. An artistic project highlighting kinetic typography.",
+    tech: ["Figma", "WebGL"],
+    image: "",
+    links: {
+      details: true,
+      github: null,
+      visit: "https://example.com"
+    }
+  }
+];
+---
+
+<MainLayout
+  title={`${t("projects.title")} | Virgil`}
+  description="My recent projects and experiments"
+  lang={lang}
+>
+  <main class="min-h-screen bg-warm-grey px-8 py-12 md:px-16">
+    <div class="max-w-7xl mx-auto">
+      <header class="mb-16 animate-fade-in-up">
+        <h1 class="text-4xl md:text-6xl font-slab font-bold text-text-cream mb-4">
+          {t("projects.title")}<span class="text-accent-amber">.</span>
+        </h1>
+        <p class="text-vintage-cream-dark text-lg md:text-xl font-sans max-w-2xl">
+          A selection of recent work, from web design to complex applications.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up delay-200">
+        {projects.map((project) => (
+          <article class="flex flex-col h-full bg-vintage-grey/30 border border-white/5 rounded-xl overflow-hidden hover:border-accent-amber/50 transition-all duration-500 hover:bg-vintage-grey/50 hover:-translate-y-1">
+            <div class="aspect-video bg-vintage-grey-light w-full flex items-center justify-center overflow-hidden relative group">
+               <!-- Placeholder or Image -->
+               <div class="w-full h-full bg-gradient-to-br from-white/5 to-white/0 group-hover:scale-105 transition-transform duration-700"></div>
+            </div>
+            
+            <div class="p-6 flex flex-col flex-grow">
+              <div class="flex justify-between items-start mb-4">
+                <span class="text-xs font-mono text-accent-amber border border-accent-amber/30 px-2 py-1 rounded">
+                  {project.category}
+                </span>
+              </div>
+              
+              <h3 class="text-2xl font-slab font-bold text-text-cream mb-2">
+                {project.title}
+              </h3>
+              
+              <p class="text-vintage-cream-dark text-sm mb-6 line-clamp-3 flex-grow">
+                {project.description}
+              </p>
+
+              <div class="flex flex-wrap gap-2 mb-6">
+                {project.tech.map(tech => (
+                  <span class="text-xs text-vintage-cream/60">#{tech}</span>
+                ))}
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex flex-wrap gap-3 mt-auto pt-4 border-t border-white/5">
+                <button class="px-4 py-2 bg-white/5 hover:bg-white/10 text-vintage-cream text-sm rounded transition-colors flex-1 text-center" data-hoverable>
+                  {t("project.more")}
+                </button>
+                
+                {project.links?.github && (
+                  <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="px-4 py-2 border border-white/10 hover:border-white/30 text-vintage-cream text-sm rounded transition-colors flex items-center gap-2" data-hoverable>
+                    GitHub
+                  </a>
+                )}
+                
+                {project.links?.visit && (
+                  <a href={project.links.visit} target="_blank" rel="noopener noreferrer" class="px-4 py-2 border border-accent-amber/30 hover:bg-accent-amber/10 text-accent-amber text-sm rounded transition-colors flex items-center gap-2" data-hoverable>
+                    Visit
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</MainLayout>
+
+<style>
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+</style>
