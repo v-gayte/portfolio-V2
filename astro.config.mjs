@@ -1,12 +1,13 @@
-// @ts-check
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import node from "@astrojs/node"; // Importation de l'adaptateur Node
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 
-// https://astro.build/config
 export default defineConfig({
+  // Suppression de l'adaptateur Vercel
+  output: 'static', // Assure la génération de fichiers HTML statiques
+  
   vite: {
     plugins: [tailwindcss()],
   },
