@@ -6,7 +6,10 @@ import react from "@astrojs/react";
 
 export default defineConfig({
   // Suppression de l'adaptateur Vercel
-  output: 'static', // Assure la génération de fichiers HTML statiques
+  output: 'server', // Active le mode Server-Side Rendering (SSR)
+  adapter: node({
+    mode: "standalone", // Génère un serveur prêt à l'emploi
+  }),
   
   vite: {
     plugins: [tailwindcss()],
