@@ -12,11 +12,6 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  output: 'server', // Active le mode Server-Side Rendering (SSR)
-  adapter: node({
-    mode: "standalone", // Génère un serveur prêt à l'emploi
-  }),
-
   integrations: [mdx(), react()],
 
   i18n: {

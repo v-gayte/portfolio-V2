@@ -67,6 +67,7 @@ const navItems = [
       class="md:hidden text-text-cream z-[60] relative"
       id="mobile-menu-btn"
       aria-label="Menu"
+      aria-expanded="false"
       data-hoverable
     >
       <svg
@@ -150,6 +151,8 @@ const navItems = [
 
   if (btn && menu && menuIcon && closeIcon) {
     btn.addEventListener("click", () => {
+      const isExpanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!isExpanded));
       menu.classList.toggle("translate-x-full");
       menuIcon.classList.toggle("hidden");
       closeIcon.classList.toggle("hidden");
@@ -160,6 +163,7 @@ const navItems = [
     const links = menu.querySelectorAll("a");
     links.forEach((link) => {
       link.addEventListener("click", () => {
+        btn.setAttribute("aria-expanded", "false");
         menu.classList.add("translate-x-full");
         menuIcon.classList.remove("hidden");
         closeIcon.classList.add("hidden");
