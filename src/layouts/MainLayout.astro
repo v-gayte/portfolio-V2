@@ -16,7 +16,7 @@ const {
   image = "/og-image.jpg",
 } = Astro.props;
 
-const siteUrl = Astro.site?.toString() || "https://virgil-gayte.me";
+const siteUrl = Astro.site?.toString() || "https://portfolio.virgil-gayte.me";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 const ogImageURL = new URL(image, siteUrl);
 

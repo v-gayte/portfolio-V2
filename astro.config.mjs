@@ -7,7 +7,7 @@ import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://virgil-gayte.me",
+  site: "https://portfolio.virgil-gayte.me",
   // Suppression de l'adaptateur Vercel
   output: 'server', // Active le mode Server-Side Rendering (SSR)
   adapter: node({
