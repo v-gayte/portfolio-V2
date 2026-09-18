@@ -4,7 +4,10 @@ import node from "@astrojs/node"; // Importation de l'adaptateur Node
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 
+import sitemap from "@astrojs/sitemap";
+
 export default defineConfig({
+  site: "https://virgil-gayte.me",
   // Suppression de l'adaptateur Vercel
   output: 'server', // Active le mode Server-Side Rendering (SSR)
   adapter: node({
@@ -15,7 +18,15 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [mdx(), react()],
+  integrations: [mdx(), react(), sitemap({
+    i18n: {
+      defaultLocale: "fr",
+      locales: {
+        fr: "fr",
+        en: "en"
+      }
+    }
+  })],
 
   i18n: {
     defaultLocale: "fr",

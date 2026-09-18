@@ -39,9 +39,9 @@ const t = useTranslations(lang);
             <div>
               <div class="text-sm text-vintage-cream-dark">Email</div>
               <a
-                href="mailto:contact@virgil.dev"
+                href="mailto:virgil.gayte@gmail.com"
                 class="font-mono text-lg hover:text-accent-amber transition-colors"
-                data-hoverable>contact@virgil.dev</a
+                data-hoverable>virgil.gayte@gmail.com</a
               >
             </div>
           </div>
@@ -55,7 +55,7 @@ const t = useTranslations(lang);
             <div>
               <div class="text-sm text-vintage-cream-dark">LinkedIn</div>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/virgil-gayte/"
                 class="font-mono text-lg hover:text-accent-amber transition-colors"
                 data-hoverable>virgil-gayte</a
               >
@@ -68,7 +68,10 @@ const t = useTranslations(lang);
       <div
         class="bg-vintage-grey/20 border border-white/5 p-8 rounded-2xl backdrop-blur-sm animate-fade-in-up delay-200"
       >
-        <form class="space-y-6">
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST" class="space-y-6">
+          <input type="hidden" name="access_key" value="VOTRE_CLE_API_WEB3FORMS_ICI" />
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
           <div class="space-y-2">
             <label
               for="name"
@@ -116,16 +119,82 @@ const t = useTranslations(lang);
 
           <button
             type="submit"
+            id="submit-btn"
             class="w-full bg-accent-amber text-warm-grey font-bold py-3 px-6 rounded-lg hover:bg-vintage-amber-light transition-all transform hover:-translate-y-0.5"
             data-hoverable
           >
             {t("contact.submit")}
           </button>
+
+          <div id="result" class="hidden text-center mt-4 p-3 rounded-lg text-sm font-medium transition-all"></div>
         </form>
       </div>
     </div>
   </main>
 </MainLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const result = document.getElementById('result');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const originalBtnText = submitBtn ? submitBtn.innerText : 'Send';
+
+  if (form && result && submitBtn) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+
+      result.classList.remove('hidden');
+      result.classList.remove('bg-red-500/20', 'text-red-300', 'border', 'border-red-500/50');
+      result.classList.remove('bg-green-500/20', 'text-green-300', 'border', 'border-green-500/50');
+      
+      result.classList.add('text-vintage-cream-dark');
+      result.innerHTML = "Sending...";
+      
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: json
+      })
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status == 200) {
+          result.classList.add('bg-green-500/20', 'text-green-300', 'border', 'border-green-500/50');
+          result.classList.remove('text-vintage-cream-dark');
+          result.innerHTML = "Message sent successfully! I'll get back to you shortly.";
+          form.reset();
+        } else {
+          console.log(response);
+          result.classList.add('bg-red-500/20', 'text-red-300', 'border', 'border-red-500/50');
+          result.classList.remove('text-vintage-cream-dark');
+          result.innerHTML = json.message || "An error occurred.";
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        result.classList.add('bg-red-500/20', 'text-red-300', 'border', 'border-red-500/50');
+        result.classList.remove('text-vintage-cream-dark');
+        result.innerHTML = "An error occurred while sending.";
+      })
+      .then(function() {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        setTimeout(() => {
+          result.classList.add('hidden');
+        }, 5000);
+      });
+    });
+  }
+</script>
 
 <style>
   .delay-200 {

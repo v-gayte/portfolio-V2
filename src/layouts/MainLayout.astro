@@ -16,10 +16,13 @@ const {
   image = "/og-image.jpg",
 } = Astro.props;
 
-// Fallback for Astro.site during development
-const siteUrl = Astro.site?.toString() || "http://localhost:4321";
+const siteUrl = Astro.site?.toString() || "https://virgil-gayte.me";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 const ogImageURL = new URL(image, siteUrl);
+
+const targetLang = lang === "fr" ? "en" : "fr";
+const targetPath = Astro.url.pathname.replace(new RegExp(`^/${lang}`), `/${targetLang}`) || `/${targetLang}/`;
+const alternateURL = new URL(targetPath, siteUrl);
 ---
 
 <!doctype html>
@@ -35,6 +38,11 @@ const ogImageURL = new URL(image, siteUrl);
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- SEO Multilingue -->
+    <link rel="alternate" hreflang={lang} href={canonicalURL} />
+    <link rel="alternate" hreflang={targetLang} href={alternateURL} />
+    <link rel="alternate" hreflang="x-default" href={new URL("/fr/", siteUrl)} />
 
     <!-- Open Graph / Facebook - Cinematic Theme -->
     <meta property="og:type" content="website" />
